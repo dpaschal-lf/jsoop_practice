@@ -1,6 +1,6 @@
 # JS OOP Prototype
 
-### Featureset 1
+### Featureset 1 - Random Number Generator
 - use the file exercise/randomgenerator.js
 - modify the RandomGenerator class
 - complete the properties and methods included in the class
@@ -11,7 +11,7 @@
 	- get the random number
 - test the class in the output in index.html
 
-### Featureset 2
+### Featureset 2 - Basic Caculator Object
 - use the file exercise/basiccalcobject.js
 - modify the Calculator class
 - complete the properties and methods included in the class
@@ -21,7 +21,7 @@
 	- calculate and return the value
 - test the class in the output in index.html
 
-### Featureset 3
+### Featureset 3 - Monetary Account
 - use the file exercise/bankaccount.js
 - modify the Account class
 - complete the properties and methods included in the class
@@ -32,7 +32,7 @@
 	- get the current amount in the account
 - test the class in the output in index.html
 
-### Featureset 4
+### Featureset 4 - Bank that uses Monetary Account
 - use the file exercise/bank.js
 - modify the Bank class
 - complete the properties and methods included in the class
@@ -45,7 +45,7 @@
 	- withdraw money from the account, but not if it doesn't exist or exceeds the amount in the account
 - test the class in the output in index.html
 
-### Featureset 5
+### Featureset 5 - Deck of Cards
 - use the file exercise/card.js
 - card.js contains both Card and Deck objects
 - modify the Card and Deck classes
