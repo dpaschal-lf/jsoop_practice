@@ -64,7 +64,12 @@ function featureSet2(){
 	}
 	var len = calc.loadNumber("moo");
 	if(typeof len !=='boolean' && len !== false){
-		displayMessage('loadNumbers should return false when the input is not a number.  It returned '+len);
+		displayMessage('loadNumbers should return false when the input is not a number.  Passed in "moo" and should have returned false, it returned '+len);
+		return false;
+	}
+	var len = calc.loadNumber("4");
+	if(typeof len !=='boolean' && len !== false){
+		displayMessage('loadNumbers should return false when the input is not a number.  Passed in "4" and should have returned false, it returned '+len);
 		return false;
 	}
 	displayMessage('loadNumber successfully rejected invalid input', 'message')
@@ -312,9 +317,9 @@ function featureSet5(){
 		displayMessage('missing method "addCard" in Deck');
 		return false;
 	}
-	var result = deck.addCard('K','Hearts');
+	var result = deck.addCard('Hearts','K');
 	if(result !== 1){
-		displayMessage('addCard("K","Hearts") should have returned a count of 1, but returned ' + result + ' instead');
+		displayMessage('addCard("Hearts","K") should have returned a count of 1, but returned ' + result + ' instead');
 		return false;
 	}
 	if(deck.getCardCount === undefined){
@@ -349,14 +354,14 @@ function featureSet5(){
 		displayMessage('after dealing the 1 card in deck, getCardCount should have returned a count of 0, but returned ' + result + ' instead');
 		return false;
 	}
-	var suites = ['hearts','clubs','diamonds','spades'];
+	var suits = ['hearts','clubs','diamonds','spades'];
 	var faceValues = ['A',2,3,4,5,6,7,8,9,10,'J','Q','K'];
-	for(var suiteI = 0; suiteI < suites.length; suiteI++){
+	for(var suitI = 0; suitI < suits.length; suitI++){
 		for(var faceI = 0; faceI < faceValues.length; faceI++){
-			var result = deck.addCard(suites[suiteI], faceValues[faceI]);
+			var result = deck.addCard(suits[suitI], faceValues[faceI]);
 		}
 	}
-	displayMessage('addCard(suite, facevalue) passes', 'message')
+	displayMessage('addCard(suit, facevalue) passes', 'message')
 	var result = deck.getCardCount();
 	if(result !== 52){
 		displayMessage('getCardCount / addCard failure:  should have returned a count of 52, but returned ' + result + ' instead');
@@ -364,19 +369,19 @@ function featureSet5(){
 	}
 	displayMessage('getCardCount passes', 'message')
 	var result = deck.dealCards(1);
-	if(result[0].getSuite === undefined){
-		displayMessage('missing method "getSuite" in Card');
+	if(result[0].getsuit === undefined){
+		displayMessage('missing method "getsuit" in Card');
 		return false;
 	}
 	if(result[0].getFaceValue === undefined){
 		displayMessage('missing method "getFaceValue" in Card');
 		return false;
 	}
-	if(result[0].getSuite() !== 'spades' || result[0].getFaceValue() !== 'K'){
-		displayMessage('first card should have been K of spades, but was  ' + result[0].getFaceValue() + ' of ' +result[0].getSuite()+ ' instead');
+	if(result[0].getsuit() !== 'spades' || result[0].getFaceValue() !== 'K'){
+		displayMessage('first card should have been K of spades, but was  ' + result[0].getFaceValue() + ' of ' +result[0].getsuit()+ ' instead');
 		return false;
 	}
-	displayMessage('card getFaceValue and getSuite pass', 'message')
+	displayMessage('card getFaceValue and getsuit pass', 'message')
 	if(deck.shuffle === undefined){
 		displayMessage('missing method "shuffle" in Deck');
 		return false;
@@ -389,8 +394,8 @@ function featureSet5(){
 		return false;
 	}
 	for(var i=0; i< cards.length; i++){
-		if(suites.indexOf( cards[i].getSuite()) === -1){
-			displayMessage('drawn card has an illegal suite in it:  should have been  ' + suites.join(',') + ' but was ' + cards[i].getSuite());
+		if(suits.indexOf( cards[i].getsuit()) === -1){
+			displayMessage('drawn card has an illegal suit in it:  should have been  ' + suits.join(',') + ' but was ' + cards[i].getsuit());
 			return false;
 		}
 	}

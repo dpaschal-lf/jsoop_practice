@@ -10,7 +10,7 @@ class Bank{
 		//takes in the account number of an account
 		//checks if the account number already exists in the account storage object in the constructor
 			//if already exists, returns fals
-		//otherwise makes an new Account object
+		//otherwise makes an new Account object, storing it into the storage object in the constructor
 		//returns the Account object that was constructed
 	}
 	checkForAccount(  ){

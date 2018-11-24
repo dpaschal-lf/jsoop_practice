@@ -1,11 +1,11 @@
 
 class Card{
-	constructor(suite, faceValue){
-		this.suite = suite;
+	constructor(suit, faceValue){
+		this.suit = suit;
 		this.faceValue = faceValue;
 	}
-	getSuite(){
-		return this.suite;
+	getsuit(){
+		return this.suit;
 	}
 	getFaceValue(){
 		return this.faceValue;
@@ -17,9 +17,9 @@ class Deck{
 		//takes in nothing
 		//make storage for your card objects
 	}
-	addCard( suite, faceValue ){
+	addCard( suit, faceValue ){
 		//adds a card to the deck
-		//takes in a string suite and faceValue
+		//takes in a string suit and faceValue
 		//makes a new card Object from the Card template
 		//adds the card object to the storage in the constructor
 		//returns the amount of cards currently stored
