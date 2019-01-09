@@ -4,7 +4,7 @@ class Card{
 		this.suit = suit;
 		this.faceValue = faceValue;
 	}
-	getsuit(){
+	getSuit(){
 		return this.suit;
 	}
 	getFaceValue(){

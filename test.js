@@ -369,19 +369,23 @@ function featureSet5(){
 	}
 	displayMessage('getCardCount passes', 'message')
 	var result = deck.dealCards(1);
-	if(result[0].getsuit === undefined){
-		displayMessage('missing method "getsuit" in Card');
+	if(result[0].constructor !== Card){
+		displayMessage('dealCards should have returned an array containing Cards, returned ' + result + ' instead');
+		return false;
+	}
+	if(result[0].getSuit === undefined){
+		displayMessage('missing method "getSuit" in Card');
 		return false;
 	}
 	if(result[0].getFaceValue === undefined){
 		displayMessage('missing method "getFaceValue" in Card');
 		return false;
 	}
-	if(result[0].getsuit() !== 'spades' || result[0].getFaceValue() !== 'K'){
-		displayMessage('first card should have been K of spades, but was  ' + result[0].getFaceValue() + ' of ' +result[0].getsuit()+ ' instead');
+	if(result[0].getSuit() !== 'spades' || result[0].getFaceValue() !== 'K'){
+		displayMessage('first card should have been K of spades, but was  ' + result[0].getFaceValue() + ' of ' +result[0].getSuit()+ ' instead');
 		return false;
 	}
-	displayMessage('card getFaceValue and getsuit pass', 'message')
+	displayMessage('card getFaceValue and getSuit pass', 'message')
 	if(deck.shuffle === undefined){
 		displayMessage('missing method "shuffle" in Deck');
 		return false;
@@ -394,8 +398,8 @@ function featureSet5(){
 		return false;
 	}
 	for(var i=0; i< cards.length; i++){
-		if(suits.indexOf( cards[i].getsuit()) === -1){
-			displayMessage('drawn card has an illegal suit in it:  should have been  ' + suits.join(',') + ' but was ' + cards[i].getsuit());
+		if(suits.indexOf( cards[i].getSuit()) === -1){
+			displayMessage('drawn card has an illegal suit in it:  should have been  ' + suits.join(',') + ' but was ' + cards[i].getSuit());
 			return false;
 		}
 	}
