@@ -17,8 +17,8 @@ function featureSet1(){
 		return false;
 	}
 	var gen = new RandomGenerator(0, 20);
-	if(gen.getRange === undefined){
-		displayMessage('missing method "getRange" in randomGenerator');
+	if(typeof gen.getRange !== 'function'){
+		displayMessage('"getRange" is not a method of randomGenerator');
 		return false;
 	}
 	var range = gen.getRange();
@@ -27,8 +27,8 @@ function featureSet1(){
 		return false;
 	}
 	displayMessage('getRange: passed', 'message');
-	if(gen.generate === undefined){
-		displayMessage('missing method "generate" in randomGenerator');
+	if(typeof gen.generate !== 'function'){
+		displayMessage('"generate" is not a method of randomGenerator');
 		return false;
 	}
 	gen.generate();
