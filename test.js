@@ -32,6 +32,28 @@ function featureSet1(){
 		return false;
 	}
 	gen.generate();
+	var genAddedProperties = Object.keys(gen);
+	for (var i = genAddedProperties.length - 1; i >= 0; i--){
+		var genKey = genAddedProperties[i];
+		if (typeof gen[genKey] === 'function' || ['min', 'max'].includes(genKey)){
+			genAddedProperties.splice(i, 1);
+		}
+	}
+	if(genAddedProperties.length === 0){
+		displayMessage('generate should store it\'s random value as a property of randomGenerator');
+		return false;
+	}
+	var genNumStorageProperty = genAddedProperties[0];
+	var storedVal = gen[genNumStorageProperty]
+	if(typeof storedVal !== 'number'){
+		displayMessage('generate should store a number, but instead stored a ' + typeof storedVal);
+		return false;
+	}
+	if(storedVal < range.min || storedVal > range.max){
+		displayMessage('generate should store a number between its min(' + range.min + ') and max(' + range.max + '), but instead stored ' + storedVal);
+		return false;
+	}
+	displayMessage('generate: passed', 'message');
 	if(gen.getNum === undefined){
 		displayMessage('missing method "getNum" in randomGenerator');
 		return false;
