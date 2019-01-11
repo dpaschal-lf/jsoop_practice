@@ -44,7 +44,7 @@ function featureSet1(){
 		return false;
 	}
 	var genNumStorageProperty = genAddedProperties[0];
-	var storedVal = gen[genNumStorageProperty]
+	var storedVal = gen[genNumStorageProperty];
 	if(typeof storedVal !== 'number'){
 		displayMessage('generate should store a number, but instead stored a ' + typeof storedVal);
 		return false;
@@ -75,8 +75,8 @@ function featureSet1(){
 		displayMessage('getNum should return a number but returned ' + typeof val + ' instead');
 		return false
 	}
-	if(val < 0 || val > 20){
-		displayMessage('getNum should have returned a number between 0 and 20, but returned '+val);
+	if(val !== gen[genNumStorageProperty]){
+		displayMessage('getNum should have returned the number stored by generate ' + gen[genNumStorageProperty] + ', but instead returned ' + val);
 		return false;
 	}
 	displayMessage('getNum: passed', 'message');
