@@ -53,6 +53,18 @@ function featureSet1(){
 		displayMessage('generate should store a number between its min(' + range.min + ') and max(' + range.max + '), but instead stored ' + storedVal);
 		return false;
 	}
+	var testRange = { min: Infinity, max: -Infinity };
+	for(var i = 0; i < 10000; i++){
+		gen.generate();
+		testRange.min = Math.min(testRange.min, gen[genNumStorageProperty]);
+		testRange.max = Math.max(testRange.max, gen[genNumStorageProperty]);
+	}
+	testRange.min = Math.floor(testRange.min);
+	testRange.max = Math.ceil(testRange.max);
+	if (testRange.min !== range.min || testRange.max !== range.max){
+		displayMessage('generate should store a number between '+range.min+' and '+range.max+', but instead stores a number between '+testRange.min+' and '+testRange.max);
+		return false;
+	}
 	displayMessage('generate: passed', 'message');
 	if(gen.getNum === undefined){
 		displayMessage('missing method "getNum" in randomGenerator');
