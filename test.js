@@ -92,12 +92,12 @@ function featureSet2(){
 		return false;
 	}
 	var calc = new Calculator();
-	if(calc.loadNumber === undefined){
+	if(typeof calc.loadNumber !== 'function'){
 		displayMessage('missing method "loadNumber" in Calculator');
 		return false;
 	}
 	var len = calc.loadNumber("moo");
-	if(typeof len !=='boolean' && len !== false){
+	if(len !== false){
 		displayMessage('loadNumbers should return false when the input is not a number.  Passed in "moo" and should have returned false, it returned '+len);
 		return false;
 	}
