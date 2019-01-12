@@ -247,9 +247,9 @@ function featureSet4(){
 		return false;
 	}
 	var newAccount = bank.makeAccount('abc123');
-	if(newAccount!==undefined && newAccount.constructor !== Account){
+	if(!(newAccount instanceof Account)){
 		displayMessage('makeAccount did not return an Account object.  It returned '+newAccount);
-		return;
+		return false;
 	}
 	displayMessage('makeAccount("abc123") returned the correct value', 'message')
 	if(bank.checkForAccount === undefined){
@@ -277,7 +277,7 @@ function featureSet4(){
 		return;
 	}
 	var newAccount = bank.makeAccount('1349823399');
-	if(newAccount!==undefined && newAccount.constructor !== Account){
+	if(!(newAccount instanceof Account)){
 		displayMessage('makeAccount did not return an Account object.  It returned '+newAccount);
 		return;
 	}
