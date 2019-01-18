@@ -98,45 +98,45 @@ function featureSet2(){
 	}
 	var len = calc.loadNumber("moo");
 	if(len !== false){
-		displayMessage('loadNumbers should return false when the input is not a number.  Passed in "moo" and should have returned false, it returned '+len);
+		displayMessage('loadNumber should return false when the input is not a number.  Passed in "moo" and should have returned false, it returned '+len);
 		return false;
 	}
 	var len = calc.loadNumber("4");
 	if(typeof len !=='boolean' && len !== false){
-		displayMessage('loadNumbers should return false when the input is not a number.  Passed in "4" and should have returned false, it returned '+len);
+		displayMessage('loadNumber should return false when the input is not a number.  Passed in "4" and should have returned false, it returned '+len);
 		return false;
 	}
 	displayMessage('loadNumber successfully rejected invalid input', 'message')
 	var len = calc.loadNumber(5);
-	if(typeof len !=='number' && len !== 1){
-		displayMessage('loadNumbers should return the length of the stored numbers (1).  It returned '+len);
+	if(len !== 1){
+		displayMessage('loadNumber should return the length of the stored numbers (1).  It returned '+len);
 		return false;
 	}
 	displayMessage('loadNumber successfully entered data', 'message')
 
 	var len = calc.loadNumber(2);
-	if(typeof len !=='number' && len !== 2){
+	if(len !== 2){
 		displayMessage('loadNumbers should return the length of the stored numbers (2).  It returned '+len);
 		return false;
 	}
 	displayMessage('loadNumber successfully entered 2nd number', 'message')
-	if(calc.loadOperator === undefined){
+	if(typeof calc.loadOperator !== 'function'){
 		displayMessage('missing method "loadOperator" in Calculator');
 		return false;
 	}
 	var len = calc.loadOperator(5);
-	if(typeof len !=='boolean' && len !== false){
+	if(len !== false){
 		displayMessage('loadOperator should return false when +,-,*, or / are not used as arguments.  It returned '+len);
 		return false;
 	}
-	displayMessage('loadOperator successfully erroneously called with invalid operator', 'message')
+	displayMessage('loadOperator successfully rejected invalid input', 'message')
 	var len = calc.loadOperator('*');
-	if(typeof len !=='boolean' && len !== true){
+	if(len !== true){
 		displayMessage('loadOperator should return true when a proper input is used as a parameter.  It returned '+len);
 		return false;
 	}
 	displayMessage('loadOperator successfully called', 'message')
-	if(calc.calculate === undefined){
+	if(typeof calc.calculate !== 'function'){
 		displayMessage('missing method "calculate" in Calculator');
 		return false;
 	}
