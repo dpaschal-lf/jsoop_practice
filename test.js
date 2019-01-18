@@ -268,8 +268,31 @@ function featureSet3(){
 		return false;
 	}
 	var account = new Account();
-	if(account.add === undefined){
+	var accountProperties = Object.keys(account);
+	var accountPropLength = accountProperties.length;
+	if (accountPropLength === 0){
+		displayMessage('No storage created in Account constructor for the amount of money in the account. Found ' + calcPropertyLen + ' properties. Is each property initialized?');
+		return false;
+	} else if (accountPropLength > 1) {
+		displayMessage('Found ' + calcPropertyLen + ' properties in Account constructor. Are you sure you need that many?', 'warning');
+	} else if (account[accountProperties[0]] !== 0){
+		displayMessage('Amount of money in the account should be initialized to 0. Instead, it was ' + account[accountProperties[0]]);
+		return false;
+	}
+	displayMessage('constructor successfully initialized amount of money in account', 'message')
+
+	if(typeof account.add !== 'function'){
 		displayMessage('missing method "add" in Account');
+		return false;
+	}
+	var amount= account.add('sandwich');
+	if(amount!==false){
+		displayMessage('add should return false when the input is not a number.  Passed in "sandwich" and should have returned false, it returned '+amount);
+		return false;
+	}
+	var amount= account.add(-37);
+	if(amount!==false){
+		displayMessage('add should return false when the input is not a positive number.  Passed in -37 and should have returned false, it returned '+amount);
 		return false;
 	}
 	var amount= account.add(5);
@@ -285,7 +308,7 @@ function featureSet3(){
 		return false;
 	}	
 	displayMessage('add(2) returned the correct value', 'message')
-	if(account.getAmount === undefined){
+	if(typeof account.getAmount !== 'function'){
 		displayMessage('missing method "getAmount" in Account');
 		return false;
 	}
@@ -293,8 +316,22 @@ function featureSet3(){
 	if(amount!==7){
 		displayMessage('getAmount called, but didn\'t return the expect value 7.  It returned '+amount);
 		return false;
-	}	
+	}
 	displayMessage('getAmount returned the correct value', 'message')
+	if(typeof account.remove !== 'function'){
+		displayMessage('missing method "remove" in Account');
+		return false;
+	}
+	var amount= account.remove('free money');
+	if(amount!==false){
+		displayMessage('remove should return false when the input is not a number.  Passed in "free money" and should have returned false, it returned '+amount);
+		return false;
+	}
+	var amount= account.remove(-14);
+	if(amount!==false){
+		displayMessage('remove should return false when the input is not a positive number.  Passed in -14 and should have returned false, it returned '+amount);
+		return false;
+	}
 	var amount= account.remove(3);
 	if(amount!==3){
 		displayMessage('remove(3) called, but didn\'t return the expect value that was removed (3).  It returned '+amount);
