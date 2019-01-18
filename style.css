@@ -6,6 +6,10 @@
 .message {
 	color: green;
 }
+.warning {
+	color: black;
+	background-color: orange;
+}
 .error{
 	color: black;
 	background-color: red;

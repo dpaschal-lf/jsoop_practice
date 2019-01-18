@@ -3,6 +3,8 @@ function displayMessage(message, type='error'){
 	var element = $("<div>").text(message).addClass(type);
 	if(type==='error'){
 		console.error(message);
+	} else if (type==='warning'){
+		console.warn(message);
 	} else {
 		console.log(message);
 	}
@@ -92,6 +94,17 @@ function featureSet2(){
 		return false;
 	}
 	var calc = new Calculator();
+
+	var calcProperties = Object.keys(calc)
+	.filter(key => typeof calc[key] !== 'function');
+	var calcPropertyLen = calcProperties.length;
+	if (calcPropertyLen < 2){
+		displayMessage('No storage created in Calculator constructor for the operator and/or numbers. Found ' + calcPropertyLen + ' properties. Is each property initialized?');
+		return false;
+	} else if (calcPropertyLen > 3){
+		displayMessage('Found ' + calcPropertyLen + ' properties in Calculator constructor. Are you sure you need that many?', 'warning');
+	}
+
 	if(typeof calc.loadNumber !== 'function'){
 		displayMessage('missing method "loadNumber" in Calculator');
 		return false;
@@ -148,7 +161,7 @@ function featureSet2(){
 	displayMessage('calculate ran successfully and returned 5*2=10', 'message')
 	var len = calc.loadNumber(3);
 	if(len !== 1){
-		displayMessage('loadNumbers should return the length of the stored numbers.  There should be only 1.  Did you reset the stored numbers after calculation? .  It returned '+len);
+		displayMessage('loadNumbers should return the length of the stored numbers.  There should be only 1.  Did you reset the stored numbers after calculation?  It returned '+len);
 		return false;
 	}
 	var len = calc.loadNumber(4);
@@ -174,6 +187,76 @@ function featureSet2(){
 		return false;		
 	}
 	displayMessage('calculate ran successfully and returned 3+4=7', 'message')
+	var len = calc.loadNumber(5);
+	if(len !== 1){
+		displayMessage('loadNumbers should return the length of the stored numbers.  There should be only 1.  Did you reset the stored numbers after calculation?  It returned '+len);
+		return false;
+	}
+	var len = calc.loadNumber(3);
+	if(len !== 2){
+		displayMessage('loadNumber(3) called.  loadNumbers should have returned 2 .  It returned '+len);
+		return false;
+	}
+	var len = calc.loadOperator('-');
+	if(len !== true){
+		displayMessage('loadOperator("-") called. loadOperator should return true when a proper input is used as a parameter.  It returned '+len);
+		return false;
+	}
+	var result = calc.calculate()
+	if(result !== 2){
+		displayMessage('Result should have been numeric 2, but was '+result+ ' instead.');
+		return false;		
+	}
+	displayMessage('calculate ran successfully and returned 5-3=2', 'message');
+	var len = calc.loadNumber(12);
+	if(len !== 1){
+		displayMessage('loadNumbers should return the length of the stored numbers.  There should be only 1.  Did you reset the stored numbers after calculation?  It returned '+len);
+		return false;
+	}
+	var len = calc.loadNumber(4);
+	if(len !== 2){
+		displayMessage('loadNumber(4) called.  loadNumbers should have returned 2 .  It returned '+len);
+		return false;
+	}
+	var len = calc.loadOperator('/');
+	if(len !== true){
+		displayMessage('loadOperator("/") called. loadOperator should return true when a proper input is used as a parameter.  It returned '+len);
+		return false;
+	}
+	var result = calc.calculate()
+	if(result !== 3){
+		displayMessage('Result should have been numeric 3, but was '+result+ ' instead.');
+		return false;		
+	}
+	displayMessage('calculate ran successfully and returned 12/4=3', 'message');
+	var testOperations = {
+		'+': function(a, b){ return a + b },
+		'-': function(a, b){ return a - b },
+		'*': function(a, b){ return a * b },
+		'/': function(a, b){ return a / b },
+	};
+	var testOperators = Object.keys(testOperations);
+	var testIterations = 10000;
+	var numberCounterMax = Math.sqrt(testIterations);
+	for (var a = 1; a <= numberCounterMax; a++){
+		for (var b = 1; b <= numberCounterMax; b++){
+			var num1 = (numberCounterMax - a + 1) / b * Math.pow(-1, a);
+			var num2 = (numberCounterMax - b + 1) / a * Math.pow(-1, b);
+			var operator = testOperators[(a + b) % 4];
+			var expected = testOperations[operator](num1, num2);
+
+			calc.loadNumber(num1);
+			calc.loadNumber(num2);
+			calc.loadOperator(operator);
+			var actual = calc.calculate();
+
+			if (actual !== expected){
+				displayMessage('calculate many-operation stress test failed on ' + num1 + ' ' + operator + ' ' + num2 + ' = ' + expected + '. Instead, returned ' + actual);
+				return false;
+			}
+		}
+	}
+	displayMessage('calculate many-operation stress test ran successfully', 'message');
 	displayMessage('Calculator passed all tests', 'message')
 	return true;
 }
