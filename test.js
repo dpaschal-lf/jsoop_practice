@@ -104,6 +104,7 @@ function featureSet2(){
 	} else if (calcPropertyLen > 3){
 		displayMessage('Found ' + calcPropertyLen + ' properties in Calculator constructor. Are you sure you need that many?', 'warning');
 	}
+	displayMessage('constructor successfully initialized properties for storing operator & numbers', 'message')
 
 	if(typeof calc.loadNumber !== 'function'){
 		displayMessage('missing method "loadNumber" in Calculator');
@@ -362,7 +363,7 @@ function featureSet4(){
 		return false;
 	}
 	var bank = new Bank('DofA');	
-	if(bank.makeAccount === undefined){
+	if(typeof bank.makeAccount !== 'function'){
 		displayMessage('missing method "makeAccount" in Bank');
 		return false;
 	}
@@ -376,12 +377,19 @@ function featureSet4(){
 		displayMessage('missing method "checkForAccount" in Bank');
 		return false;
 	}
+	var result = bank.checkForAccount('abc123');
+	if(result !== true){
+		displayMessage('checkForAccount("abc123") should have returned true.  It returned '+result);
+		return;
+	}
 	displayMessage('checkForAccount("abc123") returned the correct value', 'message')
 	var result = bank.checkForAccount('zzzzzz');
 	if(result!==false){
 		displayMessage('checkForAccount("zzzzzz") should have returned false as no such account exists.  It returned '+result);
 		return;
 	}
+	displayMessage('checkForAccount("zzzzzz") returned the correct value', 'message')
+
 	var result = bank.checkForAccount('abc123');
 	if(result!==true){
 		displayMessage('checkForAccount("abc123") should have returned true as there should be that account.  It returned '+result);
