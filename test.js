@@ -14,11 +14,22 @@ function displayMessage(message, type='error'){
 
 function featureSet1(){
 	displayMessage('--RandomGenerator test', 'header');
-	if(typeof RandomGenerator === 'undefined' ){
-		displayMessage('randomGenerator object does not exist.  Check exercises/randomgenerator.js and make sure the object is defined still.');
+	if(typeof RandomGenerator !== 'function' ){
+		displayMessage('RandomGenerator class does not exist.  Check exercises/randomgenerator.js and make sure the object is defined still.');
+		return false;
+	}
+	var len = RandomGenerator.length;
+	if(len !== 2 ){
+		displayMessage('RandomGenerator constructor should expect minimum and maximum values.  Currently expects ' + len + ' parameters');
 		return false;
 	}
 	var gen = new RandomGenerator(0, 20);
+	if(gen.min !== 0 || gen.max !== 20){
+		displayMessage('constructor did not store the minimum and maximum values in provided min and max properties.  Expected min=0 and max=20 and got min='+gen.min+' and max='+gen.max);
+		return false;
+	}
+	displayMessage('constructor: passed', 'message')
+
 	if(typeof gen.getRange !== 'function'){
 		displayMessage('"getRange" is not a method of randomGenerator');
 		return false;
