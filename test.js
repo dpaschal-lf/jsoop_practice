@@ -416,36 +416,52 @@ function featureSet4(){
 		displayMessage('missing method "makeAccount" in Bank');
 		return false;
 	}
+	var len = bank.makeAccount.length;
+	if(len !== 1 ){
+		displayMessage('makeAccount should expect one parameter.  Currently expects ' + len + ' parameters');
+		return false;
+	}
 	var newAccount = bank.makeAccount('abc123');
 	if(!(newAccount instanceof Account)){
 		displayMessage('makeAccount did not return an Account object.  It returned '+newAccount);
 		return false;
 	}
 	displayMessage('makeAccount("abc123") returned the correct value', 'message')
-	if(bank.checkForAccount === undefined){
+
+	if(typeof bank.checkForAccount !== 'function'){
 		displayMessage('missing method "checkForAccount" in Bank');
+		return false;
+	}
+	var len = bank.checkForAccount.length;
+	if(len !== 1 ){
+		displayMessage('checkForAccount should expect one parameter.  Currently expects ' + len + ' parameters');
 		return false;
 	}
 	var result = bank.checkForAccount('abc123');
 	if(result !== true){
 		displayMessage('checkForAccount("abc123") should have returned true.  It returned '+result);
-		return;
+		return false;
 	}
 	displayMessage('checkForAccount("abc123") returned the correct value', 'message')
 	var result = bank.checkForAccount('zzzzzz');
 	if(result!==false){
 		displayMessage('checkForAccount("zzzzzz") should have returned false as no such account exists.  It returned '+result);
-		return;
+		return false;
 	}
 	displayMessage('checkForAccount("zzzzzz") returned the correct value', 'message')
 
 	var result = bank.checkForAccount('abc123');
 	if(result!==true){
 		displayMessage('checkForAccount("abc123") should have returned true as there should be that account.  It returned '+result);
-		return;
+		return false;
 	}
 	if(typeof bank.removeAccount !== 'function'){
 		displayMessage('missing method "removeAccount" in Bank');
+		return false;
+	}
+	var len = bank.removeAccount.length;
+	if(len !== 1 ){
+		displayMessage('removeAccount should expect one parameter.  Currently expects ' + len + ' parameters');
 		return false;
 	}
 	var result = bank.removeAccount('zzzzzz');
@@ -453,6 +469,18 @@ function featureSet4(){
 		displayMessage('removeAccount("zzzzzz") should have returned "account zzzzzz does not exist" as there is no account by that number.  It returned '+result);
 		return;
 	}
+	var result = bank.removeAccount('abc123');
+	if(result!=='account abc123 deleted'){
+		displayMessage('removeAccount("abc123") should have returned "account abc123 deleted".  It returned '+result);
+		return;
+	}
+	displayMessage('removeAccount("abc123") returned the correct value', 'message');
+	var result = bank.checkForAccount('abc123');
+	if(result!==false){
+		displayMessage('checkForAccount("abc123") should have returned false as that account should have been removed.  It returned '+result);
+		return;
+	}
+	displayMessage('checkForAccount("abc123") returned the correct value after removeAccount("abc123")', 'message');
 	var newAccount = bank.makeAccount('1349823399');
 	if(!(newAccount instanceof Account)){
 		displayMessage('makeAccount did not return an Account object.  It returned '+newAccount);
@@ -467,25 +495,41 @@ function featureSet4(){
 		displayMessage('missing method "deposit" in Bank');
 		return false;
 	}
+	var len = bank.deposit.length;
+	if(len !== 2 ){
+		displayMessage('deposit should expect 2 parameters.  Currently expects ' + len + ' parameters');
+		return false;
+	}
 	var result = bank.deposit('zzzzzz',10);
 	if(result!=='account does not exist'){
 		displayMessage('deposit("zzzzzz") should have returned "account does not exist" as there is no account by that number.  It returned '+result);
 		return;
 	}
-	var result = bank.deposit('1349823399',10);
-	if(result!=='account 1349823399 now has 10'){
-		displayMessage('deposit("1349823399") should have returned "account 1349823399 now has 10".  It returned '+result);
+	var result = bank.deposit('1349823399',7);
+	if(result!=='account 1349823399 now has 7'){
+		displayMessage('deposit("1349823399", 7) should have returned "account 1349823399 now has 7".  It returned '+result);
 		return;
 	}
-	displayMessage('deposit(account, amount) passes', 'message')
+	displayMessage('deposit("1349823399", 7) returned the correct value', 'message')
+	var result = bank.deposit('1349823399',3);
+	if(result!=='account 1349823399 now has 10'){
+		displayMessage('deposit("1349823399", 3) should have returned "account 1349823399 now has 10" (7 + 3).  It returned "'+result+'"');
+		return;
+	}
+	displayMessage('deposit("1349823399", 3) returned the correct value', 'message')
 	var result = bank.removeAccount('1349823399');
 	if(result!=='account is not empty'){
 		displayMessage('removeAccount("1349823399") should have returned "account is not empty" as there is still money in the account and it cannot be deleted.  It returned '+result);
 		return;
 	}
 	displayMessage('removeAccount("1349823399") returned the correct value', 'message')
-	if(bank.withdraw === undefined){
+	if(typeof bank.withdraw !== 'function'){
 		displayMessage('missing method "withdraw" in Bank');
+		return false;
+	}
+	var len = bank.withdraw.length;
+	if(len !== 2 ){
+		displayMessage('withdraw should expect 2 parameters.  Currently expects ' + len + ' parameters');
 		return false;
 	}
 	var result = bank.withdraw('zzzzzz', 2);
@@ -498,15 +542,16 @@ function featureSet4(){
 		displayMessage('withdraw("1349823399", 2) should have returned "removed 2 from account 1349823399. It now has 8".  It returned '+result);
 		return;
 	}
-	var result = bank.withdraw('1349823399', 20);
+	displayMessage('withdraw("1349823399", 2) returned the correct value', 'message')
+	var result = bank.withdraw('1349823399', 9);
 	if(result!=='removed 8 from account 1349823399. It now has 0'){
-		displayMessage('withdraw("1349823399", 20) should have returned "removed 8 from account 1349823399. It now has 0".  It returned '+result);
+		displayMessage('withdraw("1349823399", 9) should have returned "removed 8 from account 1349823399. It now has 0".  It returned '+result);
 		return;
 	}
 	displayMessage('withdraw(account, amount) passes', 'message')
 	var result = bank.removeAccount('1349823399');
 	if(result!=='account 1349823399 deleted'){
-		displayMessage('removeAccount("1349823399") should have returned "account 1349823399 deleted" as there is still money in the account and it cannot be deleted.  It returned '+result);
+		displayMessage('removeAccount("1349823399") should have returned "account 1349823399 deleted" as there is no money remaining in the account.  It returned "'+result+'"');
 		return;
 	}
 	displayMessage('Bank passes all tests', 'message');
