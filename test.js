@@ -307,6 +307,11 @@ function featureSet3(){
 		displayMessage('missing method "add" in Account');
 		return false;
 	}
+	var len = account.add.length;
+	if(len !== 1 ){
+		displayMessage('add should expect one parameter.  Currently expects ' + len + ' parameters');
+		return false;
+	}
 	var amount= account.add('sandwich');
 	if(amount!==false){
 		displayMessage('add should return false when the input is not a number.  Passed in "sandwich" and should have returned false, it returned '+amount);
@@ -342,6 +347,11 @@ function featureSet3(){
 	displayMessage('getAmount returned the correct value', 'message')
 	if(typeof account.remove !== 'function'){
 		displayMessage('missing method "remove" in Account');
+		return false;
+	}
+	var len = account.remove.length;
+	if(len !== 1 ){
+		displayMessage('remove should expect one parameter.  Currently expects ' + len + ' parameters');
 		return false;
 	}
 	var amount= account.remove('free money');
