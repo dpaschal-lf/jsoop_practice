@@ -393,7 +393,25 @@ function featureSet4(){
 		displayMessage('Bank class does not exist.  Check exercises/bank.js and make sure the object is defined still.');
 		return false;
 	}
-	var bank = new Bank('DofA');	
+	var len = Bank.length;
+	if(len !== 1 ){
+		displayMessage('Bank constructor should expect the name of the bank as a parameter.  Currently expects ' + len + ' parameters');
+		return false;
+	}
+	var bank = new Bank('DofA');
+	var bankProperties = Object.keys(bank).filter(key => typeof bank[key] !== 'function');
+	var bankNameProperty = bankProperties.find(key => bank[key] === 'DofA');
+	if (bankNameProperty === undefined){
+		displayMessage('No storage created in Bank constructor for the bank\'s name.');
+		return false;
+	}
+	var bankAccountsProperty = bankProperties.find(key => bank[key] instanceof Object && bank[key].constructor === Object);
+	if (bankAccountsProperty === undefined){
+		displayMessage('No storage created in Bank constructor for accounts.');
+		return false;
+	}
+	displayMessage('constructor successfully initialized bank\'s name and account storage object.', 'message')
+
 	if(typeof bank.makeAccount !== 'function'){
 		displayMessage('missing method "makeAccount" in Bank');
 		return false;
