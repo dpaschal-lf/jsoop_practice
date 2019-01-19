@@ -596,7 +596,9 @@ function featureSet5(){
 		displayMessage('Deck class does not exist.  Check exercises/card.js and make sure the object is defined still.');
 		return false;
 	}
-	var deck = new Deck();	
+	var deck = new Deck();
+	displayMessage('constructor: passed', 'message');
+
 	if(typeof deck.addCard !== 'function'){
 		displayMessage('missing method "addCard" in Deck');
 		return false;
