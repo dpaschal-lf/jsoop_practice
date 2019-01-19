@@ -121,6 +121,11 @@ function featureSet2(){
 		displayMessage('missing method "loadNumber" in Calculator');
 		return false;
 	}
+	var len = calc.loadNumber.length;
+	if(len !== 1 ){
+		displayMessage('loadNumber should expect one parameter.  Currently expects ' + len + ' parameters');
+		return false;
+	}
 	var len = calc.loadNumber("moo");
 	if(len !== false){
 		displayMessage('loadNumber should return false when the input is not a number.  Passed in "moo" and should have returned false, it returned '+len);
@@ -147,6 +152,11 @@ function featureSet2(){
 	displayMessage('loadNumber successfully entered 2nd number', 'message')
 	if(typeof calc.loadOperator !== 'function'){
 		displayMessage('missing method "loadOperator" in Calculator');
+		return false;
+	}
+	var len = calc.loadOperator.length;
+	if(len !== 1 ){
+		displayMessage('loadOperator should expect one parameter.  Currently expects ' + len + ' parameters');
 		return false;
 	}
 	var len = calc.loadOperator(5);
