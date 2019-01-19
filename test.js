@@ -426,7 +426,35 @@ function featureSet4(){
 		displayMessage('makeAccount did not return an Account object.  It returned '+newAccount);
 		return false;
 	}
-	displayMessage('makeAccount("abc123") returned the correct value', 'message')
+	var duplicateAccount = bank.makeAccount('abc123');
+	if(duplicateAccount !== false){
+		var messagePostfix = duplicateAccount;
+		if (duplicateAccount instanceof Account){
+			messagePostfix = 'an Account object';
+		}
+		displayMessage('makeAccount should return false when the given account number already exists.  It returned ' + messagePostfix);
+		return false;
+	}
+	var bankAccountsStorage = bank[bankAccountsProperty];
+	function bankAccountExists(storage, account){
+		//base case
+		if (storage === account){ return true; }
+		if (!(storage instanceof Object)){ return false; }
+		if (typeof storage === 'function'){ return false; }
+		//recursive case
+		if (typeof storage.values === 'function'){
+			storage = Array.from(storage.values());
+		} else {
+			storage = Object.values(storage);
+		}
+		return storage.some(subStorage => bankAccountExists(subStorage, account));
+	}
+	var originalAccountExists = bankAccountExists(bankAccountsStorage, newAccount);
+	if (!originalAccountExists){
+		displayMessage('makeAccount should not replace the original account when the account number already exists.');
+		return false;
+	}
+	displayMessage('makeAccount("abc123") returned the correct value', 'message');
 
 	if(typeof bank.checkForAccount !== 'function'){
 		displayMessage('missing method "checkForAccount" in Bank');
