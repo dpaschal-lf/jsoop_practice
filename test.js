@@ -100,8 +100,8 @@ function featureSet1(){
 
 function featureSet2(){
 	displayMessage('--Calculator test', 'header');
-	if(typeof Calculator === 'undefined' ){
-		displayMessage('Calculator object does not exist.  Check exercises/basiccalcobject.js and make sure the object is defined still.');
+	if(typeof Calculator !== 'function' ){
+		displayMessage('Calculator class does not exist.  Check exercises/basiccalcobject.js and make sure the object is defined still.');
 		return false;
 	}
 	var calc = new Calculator();
@@ -285,8 +285,8 @@ function featureSet2(){
 
 function featureSet3(){
 	displayMessage('--Account', 'header');
-	if(typeof Account === 'undefined' ){
-		displayMessage('Account object does not exist.  Check exercises/bankaccount.js and make sure the object is defined still.');
+	if(typeof Account !== 'function' ){
+		displayMessage('Account class does not exist.  Check exercises/bankaccount.js and make sure the object is defined still.');
 		return false;
 	}
 	var account = new Account();
@@ -389,8 +389,8 @@ function featureSet3(){
 
 function featureSet4(){
 	displayMessage('--Bank', 'header');
-	if(typeof Bank === 'undefined' ){
-		displayMessage('Bank object does not exist.  Check exercises/bank.js and make sure the object is defined still.');
+	if(typeof Bank !== 'function' ){
+		displayMessage('Bank class does not exist.  Check exercises/bank.js and make sure the object is defined still.');
 		return false;
 	}
 	var bank = new Bank('DofA');	
@@ -497,12 +497,12 @@ function featureSet4(){
 
 function featureSet5(){
 	displayMessage('--Cards and Deck', 'header');
-	if(typeof Card === 'undefined' ){
-		displayMessage('Card object does not exist.  Check exercises/card.js and make sure the object is defined still.');
+	if(typeof Card !== 'function' ){
+		displayMessage('Card class does not exist.  Check exercises/card.js and make sure the object is defined still.');
 		return false;
 	}
-	if(typeof Deck === 'undefined' ){
-		displayMessage('Deck object does not exist.  Check exercises/card.js and make sure the object is defined still.');
+	if(typeof Deck !== 'function' ){
+		displayMessage('Deck class does not exist.  Check exercises/card.js and make sure the object is defined still.');
 		return false;
 	}
 	var deck = new Deck();	
