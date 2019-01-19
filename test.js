@@ -444,10 +444,10 @@ function featureSet4(){
 		displayMessage('checkForAccount("abc123") should have returned true as there should be that account.  It returned '+result);
 		return;
 	}
-	if(bank.removeAccount === undefined){
+	if(typeof bank.removeAccount !== 'function'){
 		displayMessage('missing method "removeAccount" in Bank');
 		return false;
-	}	
+	}
 	var result = bank.removeAccount('zzzzzz');
 	if(result!=='account zzzzzz does not exist'){
 		displayMessage('removeAccount("zzzzzz") should have returned "account zzzzzz does not exist" as there is no account by that number.  It returned '+result);
@@ -463,7 +463,7 @@ function featureSet4(){
 		displayMessage('checkForAccount("1349823399") should have returned true as there should be that account.  It returned '+result);
 		return;
 	}
-	if(bank.deposit === undefined){
+	if(typeof bank.deposit !== 'function'){
 		displayMessage('missing method "deposit" in Bank');
 		return false;
 	}
@@ -524,7 +524,7 @@ function featureSet5(){
 		return false;
 	}
 	var deck = new Deck();	
-	if(deck.addCard === undefined){
+	if(typeof deck.addCard !== 'function'){
 		displayMessage('missing method "addCard" in Deck');
 		return false;
 	}
@@ -533,7 +533,7 @@ function featureSet5(){
 		displayMessage('addCard("Hearts","K") should have returned a count of 1, but returned ' + result + ' instead');
 		return false;
 	}
-	if(deck.getCardCount === undefined){
+	if(typeof deck.getCardCount !== 'function'){
 		displayMessage('missing method "getCardCount" in Deck');
 		return false;
 	}
@@ -543,7 +543,7 @@ function featureSet5(){
 		return false;
 	}
 
-	if(deck.dealCards === undefined){
+	if(typeof deck.dealCards !== 'function'){
 		displayMessage('missing method "dealCards" in Deck');
 		return false;
 	}
@@ -597,7 +597,7 @@ function featureSet5(){
 		return false;
 	}
 	displayMessage('card getFaceValue and getSuit pass', 'message')
-	if(deck.shuffle === undefined){
+	if(typeof deck.shuffle !== 'function'){
 		displayMessage('missing method "shuffle" in Deck');
 		return false;
 	}
