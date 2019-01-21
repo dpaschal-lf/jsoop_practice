@@ -617,6 +617,11 @@ function featureSet5(){
 		displayMessage('missing method "addCard" in Deck');
 		return false;
 	}
+	var len = deck.addCard.length;
+	if(len !== 2 ){
+		displayMessage('addCard should expect two parameters.  Currently expects ' + len + ' parameters');
+		return false;
+	}
 	var result = deck.addCard('Hearts','K');
 	if(result !== 1){
 		displayMessage('addCard("Hearts","K") should have returned a count of 1, but returned ' + result + ' instead');
@@ -634,6 +639,11 @@ function featureSet5(){
 
 	if(typeof deck.dealCards !== 'function'){
 		displayMessage('missing method "dealCards" in Deck');
+		return false;
+	}
+	var len = deck.dealCards.length;
+	if(len !== 1 ){
+		displayMessage('dealCards should expect one parameter.  Currently expects ' + len + ' parameters');
 		return false;
 	}
 	var result = deck.dealCards(1);
