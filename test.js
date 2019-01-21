@@ -12,6 +12,20 @@ function displayMessage(message, type='error'){
 	
 }
 
+function storageContainsElement(storage, element){
+	//base case
+	if (storage === element){ return true; }
+	if (!(storage instanceof Object)){ return false; }
+	if (typeof storage === 'function'){ return false; }
+	//recursive case
+	if (typeof storage.values === 'function'){
+		storage = Array.from(storage.values());
+	} else {
+		storage = Object.values(storage);
+	}
+	return storage.some(subStorage => storageContainsElement(subStorage, element));
+}
+
 function featureSet1(){
 	displayMessage('--RandomGenerator test', 'header');
 	if(typeof RandomGenerator !== 'function' ){
@@ -436,20 +450,7 @@ function featureSet4(){
 		return false;
 	}
 	var bankAccountsStorage = bank[bankAccountsProperty];
-	function bankAccountExists(storage, account){
-		//base case
-		if (storage === account){ return true; }
-		if (!(storage instanceof Object)){ return false; }
-		if (typeof storage === 'function'){ return false; }
-		//recursive case
-		if (typeof storage.values === 'function'){
-			storage = Array.from(storage.values());
-		} else {
-			storage = Object.values(storage);
-		}
-		return storage.some(subStorage => bankAccountExists(subStorage, account));
-	}
-	var originalAccountExists = bankAccountExists(bankAccountsStorage, newAccount);
+	var originalAccountExists = storageContainsElement(bankAccountsStorage, newAccount);
 	if (!originalAccountExists){
 		displayMessage('makeAccount should not replace the original account when the account number already exists.');
 		return false;
