@@ -304,7 +304,8 @@ function featureSet3(){
 		return false;
 	}
 	var account = new Account();
-	var accountProperties = Object.keys(account);
+	var accountProperties = Object.keys(account)
+	.filter(function(key){ return typeof account[key] !== 'function' });
 	var accountPropLength = accountProperties.length;
 	if (accountPropLength === 0){
 		displayMessage('No storage created in Account constructor for the amount of money in the account. Found ' + calcPropertyLen + ' properties. Is each property initialized?');
@@ -593,11 +594,23 @@ function featureSet5(){
 		displayMessage('Card class does not exist.  Check exercises/card.js and make sure the object is defined still.');
 		return false;
 	}
+	var len = Card.length;
+	if(len !== 2 ){
+		displayMessage('Card constructor should expect a suit and a face value as parameters.  Currently expects ' + len + ' parameters');
+		return false;
+	}
 	if(typeof Deck !== 'function' ){
 		displayMessage('Deck class does not exist.  Check exercises/card.js and make sure the object is defined still.');
 		return false;
 	}
 	var deck = new Deck();
+	var deckProperties = Object.keys(deck)
+	.filter(function(key){ return typeof deck[key] !== 'function'; });
+	var deckPropertyLength = deckProperties.length;
+	if (deckPropertyLength < 1){
+		displayMessage('No storage created in Deck constructor for Card objects');
+		return false;
+	}
 	displayMessage('constructor: passed', 'message');
 
 	if(typeof deck.addCard !== 'function'){
