@@ -720,9 +720,11 @@ function featureSet5(){
 
 	var suits = ['hearts','clubs','diamonds','spades'];
 	var faceValues = ['A',2,3,4,5,6,7,8,9,10,'J','Q','K'];
+	var cardAddOrder = [];
 	for(var suitI = 0; suitI < suits.length; suitI++){
 		for(var faceI = 0; faceI < faceValues.length; faceI++){
 			var result = deck.addCard(suits[suitI], faceValues[faceI]);
+			cardAddOrder.push({suit: suits[suitI], faceValue: faceValues[faceI]});
 		}
 	}
 	displayMessage('addCard(suit, facevalue) passes', 'message')
@@ -737,11 +739,11 @@ function featureSet5(){
 		displayMessage('dealCards should have returned an array containing Cards, returned ' + result + ' instead');
 		return false;
 	}
-	if(result[0].getSuit === undefined){
+	if(typeof result[0].getSuit !== 'function'){
 		displayMessage('missing method "getSuit" in Card');
 		return false;
 	}
-	if(result[0].getFaceValue === undefined){
+	if(typeof result[0].getFaceValue !== 'function'){
 		displayMessage('missing method "getFaceValue" in Card');
 		return false;
 	}
@@ -750,12 +752,18 @@ function featureSet5(){
 		return false;
 	}
 	displayMessage('card getFaceValue and getSuit pass', 'message');
+
 	if(typeof deck.shuffle !== 'function'){
 		displayMessage('missing method "shuffle" in Deck');
 		return false;
 	}
-	displayMessage('shuffle() passes', 'message')
+	var lenBeforeShuffle = deck.getCardCount();
 	deck.shuffle();
+	var lenAfterShuffle = deck.getCardCount();
+	if (lenAfterShuffle !== lenBeforeShuffle){
+		displayMessage('shuffle should not affect the number of cards in the deck (' + lenBeforeShuffle + '). Instead, shuffle changed the deck size to ' + lenAfterShuffle);
+		return false;
+	}
 	var cards = deck.dealCards(7);
 	if(cards.length !== 7){
 		displayMessage('shuffle/deal cards:  should have returned 7 cards, but returned ' + JSON.stringify(result) + ' instead');
@@ -773,7 +781,23 @@ function featureSet5(){
 			return false;
 		}
 	}
+	var nonShuffledCards = cardAddOrder.slice(-8, -1).reverse();
+	var cardsInSamePosition = 0;
+	for (var i=0; i < cards.length; i++){
+		var shuffledCard = cards[i];
+		var nonShuffledCard = nonShuffledCards[i];
+		if (shuffledCard.getSuit() === nonShuffledCard.suit && shuffledCard.getFaceValue() === nonShuffledCard.faceValue){
+			cardsInSamePosition++;
+		}
+	}
+	if (cardsInSamePosition === 7){
+		displayMessage('shuffle should have randomly re-ordered the cards in the Deck, but the cards were still dealt in non-shuffled order');
+		return false;
+	} else if (cardsInSamePosition >= 5){
+		displayMessage('shuffle should have randomly re-ordered the cards in the Deck, but ' + cardsInSamePosition + ' of the 7 dealt cards were still in the same position. Are you sure the whole deck was shuffled?', 'warning');
+	}
 	displayMessage('dealCards(count) passes', 'message')
+	displayMessage('shuffle() passes', 'message')
 	displayMessage('Card and Deck passes all tests', 'message');
 	return true;
 }
