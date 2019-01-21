@@ -38,7 +38,8 @@ class Deck{
 		//deals out a number of cards
 		//takes in the number of cards to deal
 		//removes that many cards from the deck
-		//returns an array with that many cards in it
+		//returns an array with that many cards in it,
+			//in the opposite order they were added (last-in, first-out)
 		//cannot return more cards than the deck has
 	}
 }
