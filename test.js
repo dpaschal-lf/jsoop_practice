@@ -627,6 +627,7 @@ function featureSet5(){
 		displayMessage('addCard("Hearts","K") should have returned a count of 1, but returned ' + result + ' instead');
 		return false;
 	}
+	displayMessage('addCard("Hearts", "K") successfully returns 1', 'message');
 	if(typeof deck.getCardCount !== 'function'){
 		displayMessage('missing method "getCardCount" in Deck');
 		return false;
@@ -634,6 +635,17 @@ function featureSet5(){
 	var result = deck.getCardCount();
 	if(result !== 1){
 		displayMessage('getCardCount should have returned a count of 1, but returned ' + result + ' instead');
+		return false;
+	}
+	var result = deck.addCard('Spades', 8);
+	if(result !== 2){
+		displayMessage('addCard("Spades", 8) should have returned a count of 2, but returned ' + result + ' instead');
+		return false;
+	}
+	displayMessage('addCard("Spades", 8) successfully returns 2', 'message');
+	var result = deck.getCardCount();
+	if(result !== 2){
+		displayMessage('getCardCount should have returned a count of 2, but returned ' + result + ' instead');
 		return false;
 	}
 
@@ -646,24 +658,66 @@ function featureSet5(){
 		displayMessage('dealCards should expect one parameter.  Currently expects ' + len + ' parameters');
 		return false;
 	}
-	var result = deck.dealCards(1);
+	var result = deck.addCard('Diamonds', 5);
+	if(result !== 3){
+		displayMessage('addCard("Diamonds", 5) should have returned a count of 3, but returned ' + result + ' instead');
+		return false;
+	}
+	var result = deck.dealCards(2);
+	if(Array.isArray(result) !== true){
+		displayMessage('dealCards should have returned an array, returned ' + result + ' instead');
+		return false;
+	}
+	if(result.length !== 2){
+		displayMessage('dealCards should have returned an array of 2 elements, returned ' + result + ' instead');
+		return false;
+	}
+	var resultAllCards = result.every(function(element){ return element instanceof Card });
+	if(!resultAllCards){
+		displayMessage('dealCards should have returned an array containing Cards, returned ' + JSON.stringify(result) + ' instead');
+		return false;
+	}
+	if(
+		result[0].suit !== 'Diamonds' || result[0].faceValue !== 5
+		|| result[1].suit !== 'Spades' || result[1].faceValue !== 8
+		){
+		displayMessage('dealCards should have returned the last 2 of the added cards (K of Hearts, 8 of Spades, 5 of Diamonds) in reverse order (5 of Diamonds, 8 of Spades). Instead, it returned ' + JSON.stringify(result));
+		return false;
+	}
+	var result = deck.getCardCount();
+	if(result !== 1){
+		displayMessage('after dealing the 2 cards in deck, getCardCount should have returned a count of 1, but returned ' + result + ' instead');
+		return false;
+	}
+	displayMessage('dealCards(2) successfully removed and returned the last two cards in reverse-order', 'message');
+
+	var result = deck.dealCards(2);
 	if(Array.isArray(result) !== true){
 		displayMessage('dealCards should have returned an array, returned ' + result + ' instead');
 		return false;
 	}
 	if(result.length !== 1){
-		displayMessage('dealCards should have returned an array of 1 element, returned ' + result + ' instead');
+		displayMessage('dealCards(2) should have returned an array of 1 element, as there was only 1 card remaining. Instead, returned ' + JSON.stringify(result) + ' instead');
 		return false;
 	}
-	if(result[0].constructor !== Card){
-		displayMessage('dealCards should have returned an array containing Cards, returned ' + result + ' instead');
+	var resultAllCards = result.every(function(element){ return element instanceof Card });
+	if(!resultAllCards){
+		displayMessage('dealCards should have returned an array containing Cards, returned ' + JSON.stringify(result) + ' instead');
+		return false;
+	}
+	if(
+		result[0].suit !== 'Hearts' || result[0].faceValue !== 'K'
+		){
+		displayMessage('dealCards should have returned the last remaining card (K of Hearts). Instead, it returned ' + JSON.stringify(result));
 		return false;
 	}
 	var result = deck.getCardCount();
 	if(result !== 0){
-		displayMessage('after dealing the 1 card in deck, getCardCount should have returned a count of 0, but returned ' + result + ' instead');
+		displayMessage('after dealing the last card in the deck, getCardCount should have returned a count of 0, but returned ' + result + ' instead');
 		return false;
 	}
+	displayMessage('dealCards(2) successfully removed and returned only the last remaining card', 'message');
+
 	var suits = ['hearts','clubs','diamonds','spades'];
 	var faceValues = ['A',2,3,4,5,6,7,8,9,10,'J','Q','K'];
 	for(var suitI = 0; suitI < suits.length; suitI++){
@@ -695,7 +749,7 @@ function featureSet5(){
 		displayMessage('first card should have been K of spades, but was  ' + result[0].getFaceValue() + ' of ' +result[0].getSuit()+ ' instead');
 		return false;
 	}
-	displayMessage('card getFaceValue and getSuit pass', 'message')
+	displayMessage('card getFaceValue and getSuit pass', 'message');
 	if(typeof deck.shuffle !== 'function'){
 		displayMessage('missing method "shuffle" in Deck');
 		return false;
