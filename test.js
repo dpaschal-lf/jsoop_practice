@@ -796,6 +796,28 @@ function featureSet5(){
 	} else if (cardsInSamePosition >= 5){
 		displayMessage('shuffle should have randomly re-ordered the cards in the Deck, but ' + cardsInSamePosition + ' of the 7 dealt cards were still in the same position. Are you sure the whole deck was shuffled?', 'warning');
 	}
+	var deck2 = new Deck();
+	var suits = ['hearts','clubs','diamonds','spades'];
+	var faceValues = ['A',2,3,4,5,6,7,8,9,10,'J','Q','K'];
+	var cardAddOrder = [];
+	for(var suitI = 0; suitI < suits.length; suitI++){
+		for(var faceI = 0; faceI < faceValues.length; faceI++){
+			var result = deck2.addCard(suits[suitI], faceValues[faceI]);
+			cardAddOrder.push({suit: suits[suitI], faceValue: faceValues[faceI]});
+		}
+	}
+	var deck2Cards = deck.dealCards(52);
+	var cardMap = {};
+	for(var cardIndex = 0; cardIndex < deck2Cards.length; cardIndex++){
+		var card = deck2Cards[cardIndex];
+		var comboText = card.getSuit()+card.getFaceValue();
+		cardMap[comboText] = cardMap.hasOwnProperty(comboText) ? cardMap[comboText] + 1 : 1;
+	}
+	for(var key in cardMap){
+		if( cardMap[key] > 1){
+			displayMessage('shuffle appears to have duplicated some of the cards.  Illegal shuffle')
+		}
+	}
 	displayMessage('dealCards(count) passes', 'message')
 	displayMessage('shuffle() passes', 'message')
 	displayMessage('Card and Deck passes all tests', 'message');
